@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Device {
+  id          String   @id @default(cuid())
+  deviceId    String   @unique
+  name        String
+  location    String?
+  status      String   @default("active") // active, inactive, error
+  lastSeen    DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  voltageLogs VoltageLog[]
+  
+  @@map("devices")
+}
+
+model VoltageLog {
+  id        String   @id @default(cuid())
+  deviceId  String
+  voltage   Float
+  isHigh    Boolean
+  timestamp DateTime @default(now())
+  
+  device    Device   @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+  
+  @@map("voltage_logs")
+}
