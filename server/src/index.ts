@@ -19,6 +19,9 @@ app.get("/health", (req, res) => {
 app.post("/poste", (req, res) => {
   try {
     console.log(req.body);
+    res.json({
+      succse: "ok",
+    });
   } catch (e) {
     console.log(e);
   }
