@@ -14,6 +14,7 @@ app.use(express.json());
 
 // Health check
 app.get("/health", (req, res) => {
+  console.log("healthcheckup");
   res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 app.post("/poste", (req, res) => {
